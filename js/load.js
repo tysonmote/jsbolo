@@ -29,7 +29,7 @@ var BOLO = {};
 
   scripts = [
     // libraries
-    'js/libs/jquery-1.7.2.min.js',
+    //'js/libs/jquery-1.7.2.min.js',
 
     // script files
     'js/bolo.js',
