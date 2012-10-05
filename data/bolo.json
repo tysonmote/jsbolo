@@ -1,0 +1,204 @@
+{
+  "width": 256,
+  "borderWidth": 10,
+  "tankRadius": 0.375,
+  "builderRadius": 0.125,
+  "explosionRadius": 0.5,
+  "frameRate": 60,
+  "tankAccelation": 3.125,
+  "maxBoatTurnRate": 2.5,
+
+  "terrainArray": [
+    {
+      "name": "wall",
+      "propertyName": "wall",
+      "isMined": false
+    },
+    {
+      "name": "river",
+      "propertyName": "river",
+      "isMined": false
+    },
+    {
+      "name": "swamp",
+      "propertyName": "swamp",
+      "isMined": false
+    },
+    {
+      "name": "crater",
+      "propertyName": "crater",
+      "isMined": false
+    },
+    {
+      "name": "road",
+      "propertyName": "road",
+      "isMined": false
+    },
+    {
+      "name": "forest",
+      "propertyName": "forest",
+      "isMined": false
+    },
+    {
+      "name": "rubble",
+      "propertyName": "rubble",
+      "isMined": false
+    },
+    {
+      "name": "grass",
+      "propertyName": "grass",
+      "isMined": false
+    },
+    {
+      "name": "damagedWall",
+      "propertyName": "damagedWall",
+      "isMined": false
+    },
+    {
+      "name": "boat",
+      "propertyName": "boat",
+      "isMined": false
+    },
+    {
+      "name": "minedSwamp",
+      "propertyName": "swamp",
+      "isMined": true
+    },
+    {
+      "name": "minedCrater",
+      "propertyName": "crater",
+      "isMined": true
+    },
+    {
+      "name": "minedRoad",
+      "propertyName": "road",
+      "isMined": true
+    },
+    {
+      "name": "minedForest",
+      "propertyName": "forest",
+      "isMined": true
+    },
+    {
+      "name": "minedRubble",
+      "propertyName": "rubble",
+      "isMined": true
+    },
+    {
+      "name": "minedGrass",
+      "propertyName": "grass",
+      "isMined": true
+    },
+    {
+      "name": "sea",
+      "propertyName": "sea",
+      "isMined": false
+    },
+    {
+      "name": "minedSea",
+      "propertyName": "sea",
+      "isMined": true
+    }
+  ],
+  "terrainProperties": {
+    "wall": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": true,
+      "canBeMined": false,
+      "maxSpeed": 0,
+      "maxTurnRate": 0,
+      "builderSpeed": 0
+    },
+    "river": {
+      "isWaterSource": true,
+      "isWaterLike": true,
+      "isWallLike": false,
+      "canBeMined": false,
+      "maxSpeed": 0.5859375,
+      "maxTurnRate": 0.625,
+      "builderSpeed": 0
+    },
+    "swamp": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": false,
+      "canBeMined": true,
+      "maxSpeed": 0.5859375,
+      "maxTurnRate": 0.625,
+      "builderSpeed": 0.78125
+    },
+    "crater": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": false,
+      "canBeMined": true,
+      "maxSpeed": 0.5859375,
+      "maxTurnRate": 0.625,
+      "builderSpeed": 0.78125
+    },
+    "road": {
+      "isWaterSource": false,
+      "isWaterLike": true,
+      "isWallLike": false,
+      "canBeMined": true,
+      "maxSpeed": 3.125,
+      "maxTurnRate": 2.5,
+      "builderSpeed": 3.125
+    },
+    "forest": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": false,
+      "canBeMined": true,
+      "maxSpeed": 1.171875,
+      "maxTurnRate": 1.25,
+      "builderSpeed": 1.5625
+    },
+    "rubble": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": true,
+      "canBeMined": true,
+      "maxSpeed": 0.5859375,
+      "maxTurnRate": 0.625,
+      "builderSpeed": 0.78125
+    },
+    "grass": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": false,
+      "canBeMined": true,
+      "maxSpeed": 2.34375,
+      "maxTurnRate": 2.5,
+      "builderSpeed": 3.125
+    },
+    "damagedWall": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": true,
+      "canBeMined": false,
+      "maxSpeed": 0,
+      "maxTurnRate": 0,
+      "builderSpeed": 0
+    },
+    "boat": {
+      "isWaterSource": true,
+      "isWaterLike": true,
+      "isWallLike": false,
+      "canBeMined": false,
+      "maxSpeed": 3.125,
+      "maxTurnRate": 2.5,
+      "builderSpeed": 3.125
+    },
+    "sea": {
+      "isWaterSource": true,
+      "isWaterLike": true,
+      "isWallLike": false,
+      "canBeMined": true,
+      "maxSpeed": 0,
+      "maxTurnRate": 0,
+      "builderSpeed": 0
+    }
+  }
+}

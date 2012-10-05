@@ -1,0 +1,76 @@
+{
+  "server": [
+    {
+      "message": "mapList",
+      "properties": [{
+        "name": "list",
+        "type": "array",
+        "properties": [{
+            "name": "mapName",
+            "type": "string"
+        }]
+      }]
+    },
+    {
+      "message": "gameList",
+      "properties": [{
+        "name": "list",
+        "type": "array",
+        "properties": [
+          {
+            "name": "mapName",
+            "type": "string"
+          },
+          {
+            "name": "nPlayers",
+            "type": "uint8"
+          }
+        ]
+      }]
+    },
+    {
+      "message": "gameData",
+      "properties": [
+        {
+          "name": "id",
+          "type": "uint16"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "map",
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "client": [
+    {
+      "message": "newGame",
+      "properties": [{
+        "name": "mapName",
+        "type": "string"
+      }]
+    },
+    {
+      "message": "watchGame",
+      "properties": [{
+        "name": "gameName",
+        "type": "string"
+      }]
+    },
+    {
+      "message": "enterGame",
+      "properties": [{
+        "name": "gameName",
+        "type": "string"
+      }]
+    }
+  ]
+}
