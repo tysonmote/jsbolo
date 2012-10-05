@@ -23,9 +23,9 @@
 
       // set body to window size
       body.setAttribute(
-        "style",
-        "width: " + windowWidth + "px; " +
-          "height: " + windowHeight + "px;"
+        'style',
+        'width: ' + windowWidth + 'px; ' +
+          'height: ' + windowHeight + 'px;'
       );
 
       // get canvas element and context

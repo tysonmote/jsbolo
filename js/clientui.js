@@ -23,7 +23,7 @@
   ns.ui = {};
 
   // code ganked off of developer.mozilla.org and defuckified somewhat
-  // creates a "addwheelListener" method
+  // creates a 'addwheelListener' method
   // example:
   //  addWheelListener(elem, function(e) {
   //    console.log(e.deltaY); e.preventDefault();
@@ -45,7 +45,7 @@
 
     // detect available wheel event
     if (document.onmousewheel !== undefined) {
-      // Webkit and IE support at least "mousewheel"
+      // Webkit and IE support at least 'mousewheel'
       support = 'mousewheel';
     }
 
