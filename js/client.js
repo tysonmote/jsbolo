@@ -47,7 +47,7 @@
 
   ns.client = {};
 
-  ns.client.start = function () {
+  ns.client.init = function () {
     if (!Modernizr.canvas || !Modernizr.websockets) {
       // no canvas, no websockets, no way
       return;
@@ -61,8 +61,8 @@
       ns.bolo.width * 16
     );
 
-    // setup canvas
-    ns.camera.init(document.getElementById('bolo'));
+    // initialize user interface controller
+    ns.ui.init();
 
     socket = new WebSocket('ws://' + location.host, ['bolo']);
     console.log('connecting');
@@ -106,10 +106,9 @@
 
       case 'gameData':
         ns.gameData = ns.bmapString.readMapString(obj.data);
-        ns.tileMap = ns.TileMap(ns.gameData);
-        ns.camera.refresh();
-        ns.ui.registerControlListeners();
-
+        ns.ui.setMainTileMap(ns.TileMap(ns.gameData));
+        //ns.tileMap = ns.TileMap(ns.gameData);
+        //ns.camera.refresh();
         break;
 
       default:
@@ -126,8 +125,6 @@
       // show to user
       console.log('closed');
     };
-
-    ns.ui.registerEventListeners();
   };
 
   ns.client.newGame = function (mapName) {
@@ -135,32 +132,6 @@
       message: 'newGame',
       mapName: mapName
     });
-
-/*
-    // initialize
-
-    // application start
-    ns.stateFunc = ns.playState;
-    ns.frameRateCounter = new ns.FrameRateCounter();
-
-    // application loop
-    ns.frameRate = 60;
-    setInterval((function run() { ns.stateFunc(); }.bind(ns)),
-      1000 / ns.frameRate);
-
-    // hides the menu screen
-    fade({
-      elem: document.getElementById('menu'),
-      start: 1,
-      end: 0,
-      seconds: 1,
-      frameRate: 15
-    });
-
-
-    // unregister events from menu
-    ns.ui.deregisterEventListeners();
-*/
   };
 
   ns.playState = function playState() {

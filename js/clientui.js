@@ -11,23 +11,49 @@
   var
     ns = BOLO,
     tabBodyDiv,
+    tabBarDiv,
     newGameTabDiv,
     watchGameTabDiv,
     newGameDiv,
     watchGameDiv,
     mapListDiv,
     gameListDiv,
+    canvas,
     selectedElement,
-    addWheelListener;
+    addWheelListener,
+    mainBoloView,
+    previewBoloView;
 
   ns.ui = {};
 
-  // code ganked off of developer.mozilla.org and defuckified somewhat
-  // creates a 'addwheelListener' method
-  // example:
-  //  addWheelListener(elem, function(e) {
-  //    console.log(e.deltaY); e.preventDefault();
-  //  });
+  // get DOM elements
+  tabBodyDiv = document.getElementById('tabBody');
+  tabBarDiv = document.getElementById('tabBar');
+
+  newGameTabDiv = document.getElementById('newGameTab');
+  watchGameTabDiv = document.getElementById('watchGameTab');
+
+  newGameDiv = document.getElementById('newGame');
+  watchGameDiv = document.getElementById('watchGame');
+
+  mapListDiv = document.getElementById('mapList');
+  gameListDiv = document.getElementById('gameList');
+
+  canvas = document.getElementById('bolo');
+
+  /*
+   * define some useful functions
+   */
+
+  /*
+   * code ganked off of developer.mozilla.org and defuckified somewhat
+   * creates a 'addwheelListener' method
+   * example:
+   * addWheelListener(elem, function(e) {
+   *   console.log(e.deltaY); e.preventDefault();
+   * });
+   */
+
   addWheelListener = (function (window, document) {
     var
       prefix = '',
@@ -123,22 +149,6 @@
     };
   }(window, document));
 
-  tabBodyDiv = document.getElementById('tabBody');
-
-  newGameTabDiv = document.getElementById('newGameTab');
-  watchGameTabDiv = document.getElementById('watchGameTab');
-
-  newGameDiv = document.getElementById('newGame');
-  watchGameDiv = document.getElementById('watchGame');
-
-  mapListDiv = document.getElementById('mapList');
-  gameListDiv = document.getElementById('gameList');
-
-  /**
-   *
-   *
-   */
-
   ns.ui.updateMapList = function (list) {
     var html, i, length;
 
@@ -153,11 +163,6 @@
 
     mapListDiv.innerHTML = html;
   };
-
-  /**
-   *
-   *
-   */
 
   ns.ui.updateGameList = function (list) {
     var html, i, length;
@@ -174,34 +179,49 @@
     //gameListDiv.innerHTML = html;
   };
 
-  /*
-   *
-   *
-   */
+  ns.ui.init = function () {
+    var
+      mouseDown, mouseMove, mouseUp,
+      touchStart, touchMove, touchEnd;
 
-  ns.ui.registerEventListeners = function () {
-    watchGameTabDiv.onclick = newGameTabDiv.onclick = function (e) {
-      var className, result;
+    mainBoloView = new ns.BoloView(canvas);
+    previewBoloView = new ns.BoloView(canvas);
 
-      // shows tab body if it isn't visible by removing 'hidden' class name
-      className = tabBodyDiv.className;
-      result = className.replace(/(\s+|^)?hidden(\s+|$)?/i, '');
+    // handle window resize event and initialize size
+    window.onresize = function () {
+      var
+        windowWidth = window.innerWidth,
+        windowHeight = window.innerHeight;
 
-      if (className !== result) {
-        tabBodyDiv.className = result;
-      }
+      // set body to window size
+      document.body.setAttribute(
+        'style',
+        'width: ' + windowWidth + 'px; ' +
+          'height: ' + windowHeight + 'px;'
+      );
+
+      mainBoloView.resize();
     };
 
-    watchGameTabDiv.onclick = function (e) {
-      var className, result;
+    window.onresize();
 
-      // shows tab body if it isn't visible by removing 'hidden' class name
-      className = tabBodyDiv.className;
-      result = className.replace(/(\s+|^)?hidden(\s+|$)?/i, '');
+    // register menu events
+    tabBarDiv.onclick = function (e) {
+      var
+        className = tabBodyDiv.className,
+        regex = /(\s+|^)?hidden(\s+|$)?/i;
 
-      if (className !== result) {
-        tabBodyDiv.className = result;
+      e.preventDefault();
+
+      // toggles 'hidden' class name on tabBodyDiv
+
+      if (regex.exec(className)) {
+        className = className.replace(regex, '');
+      } else {
+        className += ' hidden';
       }
+
+      tabBodyDiv.className = className;
     };
 
     newGameDiv.onclick = function (e) {
@@ -232,24 +252,17 @@
         newGameDiv.className = 'button';
       }
     };
-  };
 
-  ns.ui.registerControlListeners = function () {
-    var
-      canvas = document.getElementById('bolo'),
-      mouseDown, mouseMove, mouseUp,
-      touchStart, touchMove, touchEnd;
-
-    // handle mouse events
-    (function () {
+    // mouse event closures
+    (function (element) {
       var startX, startY, lastX, lastY;
 
       mouseDown = function (e) {
         e.preventDefault();
         startX = lastX = e.x;
         startY = lastY = e.y;
-        document.addEventListener('mousemove', mouseMove, false);
-        document.addEventListener('mouseup', mouseUp, false);
+        element.addEventListener('mousemove', mouseMove, false);
+        element.addEventListener('mouseup', mouseUp, false);
       };
 
       mouseMove = function (e) {
@@ -260,12 +273,12 @@
 
       mouseUp = function (e) {
         e.preventDefault();
-        document.removeEventListener('mousemove', mouseMove, false);
-        document.removeEventListener('mouseup', mouseUp, false);
+        element.removeEventListener('mousemove', mouseMove, false);
+        element.removeEventListener('mouseup', mouseUp, false);
       };
-    }());
+    }(canvas));
 
-    // handle touch events
+    // touch event closures
     (function () {
       var
         touches = [];
@@ -296,7 +309,7 @@
         // this algorithm minimizes slip from rounding
         dx = touches[which].lastX - newX;
         dy = touches[which].lastY - newY;
-        dxy = ns.camera.moveView(dx, dy);
+        dxy = mainBoloView.moveView(dx, dy);
 
         touches[which] = {
           lastX: newX + (dx - dxy.dx),
@@ -311,114 +324,70 @@
       };
     }());
 
-    // register touch event listeners
-    /*canvas.addEventListener('touchstart', function (e) {
-      e.preventDefault();
-    }, false);
-
-    canvas.addEventListener('touchmove', function (e) {
-      e.preventDefault();
-    }, false);
-
-    canvas.addEventListener('touchend', function (e) {
-      e.preventDefault();
-    }, false);*/
-
     // prevent default behavior for events we don't care about
     //document.addEventListener('touchstart', dragStart, false);
-    document.addEventListener('mousedown', mouseDown, false);
+    canvas.addEventListener('mousedown', mouseDown, false);
 
     // register touch event listeners
-    document.addEventListener('touchstart', touchStart, false);
-    document.addEventListener('touchmove', touchMove, false);
-    document.addEventListener('touchend', touchEnd, false);
-
-
-    /*document.addEventListener('touchmove', drag, false);*/
-    /*document.addEventListener('touchend', dragEnd, false);*/
-
-    // mouse button
-
-    /*document.addEventListener('mousemove', function (e) {
-      e.preventDefault();
-      console.dir(e);
-    }, false);*/
-
-    /*document.addEventListener('mouseup', function (e) {
-      e.preventDefault();
-      console.log('mouseup');
-      console.dir(e);
-      document.removeEventListener('mousemove', drag, false);
-    }, false);*/
-
-    /*document.addEventListener('mouseover', function (e) {
-      e.preventDefault();
-      console.log('mouseover');
-      console.dir(e);
-    }, false);*/
-
-    /*document.addEventListener('mouseout', function (e) {
-      e.preventDefault();
-      console.log('mouseout');
-      console.dir(e);
-    }, false);*/
+    canvas.addEventListener('touchstart', touchStart, false);
+    canvas.addEventListener('touchmove', touchMove, false);
+    canvas.addEventListener('touchend', touchEnd, false);
 
     // mouse wheel handler
-    addWheelListener(document, function (e) {
-      e.preventDefault();
+    addWheelListener(window, function (e) {
 
-      ns.camera.moveView(
-        Math.round(e.deltaX),
-        Math.round(e.deltaY)
-      );
+      // only scroll when over canvas
+      if (e.target.id === 'menu') {
+        e.preventDefault();
+
+        mainBoloView.moveView(
+          Math.round(e.deltaX),
+          Math.round(e.deltaY)
+        );
+      }
     }, false);
 
-    document.onkeydown = function (e) {
+    window.onkeydown = function (e) {
       switch (e.keyCode) {
       case 39: // right arrow
         e.preventDefault();
-        ns.camera.moveViewBlock(1, 0);
+        mainBoloView.moveViewBlock(1, 0);
         break;
 
       case 40: // down arrow
         e.preventDefault();
-        ns.camera.moveViewBlock(0, 1);
+        mainBoloView.moveViewBlock(0, 1);
         break;
 
       case 38: // up arrow
         e.preventDefault();
-        ns.camera.moveViewBlock(0, -1);
+        mainBoloView.moveViewBlock(0, -1);
         break;
 
       case 37: // left arrow
         e.preventDefault();
-        ns.camera.moveViewBlock(-1, 0);
+        mainBoloView.moveViewBlock(-1, 0);
         break;
 
       case 187: // =+, everything else uses this keycode
       case 61: // firefox gets this keycode
         e.preventDefault();
-        ns.camera.zoomIn();
+        mainBoloView.zoomIn();
         break;
 
       case 189: // -_, everything else uses this keycode
       case 173: // firefox uses this keycode
         e.preventDefault();
-        ns.camera.zoomOut();
+        mainBoloView.zoomOut();
         break;
       }
     };
 
-    document.onkeyup = function (e) {
+    window.onkeyup = function (e) {
     };
   };
 
-  /*
-   *
-   *
-   */
-
-  ns.ui.deregisterEventListeners = function () {
-    mapListDiv.onclick = null;
+  ns.ui.setMainTileMap = function (tileMap) {
+    mainBoloView.setTileMap(tileMap);
   };
 }());

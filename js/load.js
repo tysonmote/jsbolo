@@ -147,7 +147,7 @@ var BOLO = {};
       Modernizr.load({
         load: scripts,
         complete: function () {
-          ns.client.start();
+          ns.client.init();
         }
       });
     }
