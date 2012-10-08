@@ -9,7 +9,7 @@
 (function () {
   'use strict';
 
-  var ns, bolo;
+  var ns, bolo, foo;
 
   if (typeof window === 'undefined') {
     // we're in node
@@ -20,6 +20,7 @@
     // we're in the browser
     ns = BOLO.bmapString = {};
     bolo = BOLO.bolo;
+    foo = BOLO;
   }
 
   ns.readMapString = function (string) {
@@ -32,11 +33,28 @@
       nBases,
       starts,
       nStarts,
+      left = 255,
+      right = 0,
+      top = 0,
+      bottom = 255,
+      test = function (x, y) {
+        if (x < left) {
+          left = x;
+        }
+        if (x > right) {
+          right = x;
+        }
+        if (y < bottom) {
+          bottom = y;
+        }
+        if (y > top) {
+          top = y;
+        }
+      },
       owner, armour, speed, shells, mines, dir, n, t,
       offset, i, x, y, start, end, b,
       sea = bolo.terrainName.sea,
       minedSea = bolo.terrainName.minedSea;
-
 
     map = {};
 
@@ -174,6 +192,9 @@
         }
       }
     }
+
+    map.centerRect = new foo.Rect(left * 16, bottom * 16,
+        (right - left + 1) * 16, (top - bottom + 1) * 16);
 
     return map;
   };

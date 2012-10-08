@@ -106,7 +106,7 @@
 
       case 'gameData':
         ns.gameData = ns.bmapString.readMapString(obj.data);
-        ns.ui.setMainTileMap(ns.TileMap(ns.gameData));
+        ns.ui.setGameData(ns.gameData);
         //ns.tileMap = ns.TileMap(ns.gameData);
         //ns.camera.refresh();
         break;

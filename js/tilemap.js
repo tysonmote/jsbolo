@@ -1140,6 +1140,9 @@
         }*/
       },
 
+      drawTileColor: function (ctx, x, y) {
+      },
+
       drawRect: function (ctx, rect) {
         var x, y, xMax, yMax;
 
@@ -1151,6 +1154,29 @@
         for (y = rect.y; y < yMax; y += 1) {
           for (x = rect.x; x < xMax; x += 1) {
             this.drawTile(ctx, x, y);
+          }
+        }
+      },
+
+      drawColorRect: function (ctx, rect, width) {
+        var
+          x, y, xMax, yMax;
+
+        rect = rect.intersect(ns.bolo.worldRect);
+
+        xMax = rect.x + rect.width;
+        yMax = rect.y + rect.height;
+
+        for (y = rect.y; y < yMax; y += 1) {
+          for (x = rect.x; x < xMax; x += 1) {
+            ctx.fillStyle = this.map[y][x].properties.color;
+
+            ctx.fillRect(
+              Math.floor((x - rect.x) * width),
+              Math.floor((y - rect.y) * width),
+              Math.ceil(width),
+              Math.ceil(width)
+            );
           }
         }
       }

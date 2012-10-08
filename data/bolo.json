@@ -108,7 +108,8 @@
       "canBeMined": false,
       "maxSpeed": 0,
       "maxTurnRate": 0,
-      "builderSpeed": 0
+      "builderSpeed": 0,
+      "color": "#B3790F"
     },
     "river": {
       "isWaterSource": true,
@@ -117,7 +118,8 @@
       "canBeMined": false,
       "maxSpeed": 0.5859375,
       "maxTurnRate": 0.625,
-      "builderSpeed": 0
+      "builderSpeed": 0,
+      "color": "#00FFFF"
     },
     "swamp": {
       "isWaterSource": false,
@@ -126,7 +128,8 @@
       "canBeMined": true,
       "maxSpeed": 0.5859375,
       "maxTurnRate": 0.625,
-      "builderSpeed": 0.78125
+      "builderSpeed": 0.78125,
+      "color": "#008080"
     },
     "crater": {
       "isWaterSource": false,
@@ -135,7 +138,8 @@
       "canBeMined": true,
       "maxSpeed": 0.5859375,
       "maxTurnRate": 0.625,
-      "builderSpeed": 0.78125
+      "builderSpeed": 0.78125,
+      "color": "#804000"
     },
     "road": {
       "isWaterSource": false,
@@ -144,7 +148,8 @@
       "canBeMined": true,
       "maxSpeed": 3.125,
       "maxTurnRate": 2.5,
-      "builderSpeed": 3.125
+      "builderSpeed": 3.125,
+      "color": "#000000"
     },
     "forest": {
       "isWaterSource": false,
@@ -153,7 +158,8 @@
       "canBeMined": true,
       "maxSpeed": 1.171875,
       "maxTurnRate": 1.25,
-      "builderSpeed": 1.5625
+      "builderSpeed": 1.5625,
+      "color": "#008000"
     },
     "rubble": {
       "isWaterSource": false,
@@ -162,7 +168,8 @@
       "canBeMined": true,
       "maxSpeed": 0.5859375,
       "maxTurnRate": 0.625,
-      "builderSpeed": 0.78125
+      "builderSpeed": 0.78125,
+      "color": "#EAA57B"
     },
     "grass": {
       "isWaterSource": false,
@@ -171,7 +178,8 @@
       "canBeMined": true,
       "maxSpeed": 2.34375,
       "maxTurnRate": 2.5,
-      "builderSpeed": 3.125
+      "builderSpeed": 3.125,
+      "color": "#00FF00"
     },
     "damagedWall": {
       "isWaterSource": false,
@@ -180,7 +188,8 @@
       "canBeMined": false,
       "maxSpeed": 0,
       "maxTurnRate": 0,
-      "builderSpeed": 0
+      "builderSpeed": 0,
+      "color": "#DF9813"
     },
     "boat": {
       "isWaterSource": true,
@@ -189,7 +198,8 @@
       "canBeMined": false,
       "maxSpeed": 3.125,
       "maxTurnRate": 2.5,
-      "builderSpeed": 3.125
+      "builderSpeed": 3.125,
+      "color": "#000079"
     },
     "sea": {
       "isWaterSource": true,
@@ -198,7 +208,8 @@
       "canBeMined": true,
       "maxSpeed": 0,
       "maxTurnRate": 0,
-      "builderSpeed": 0
+      "builderSpeed": 0,
+      "color": "#0000FF"
     }
   }
 }
