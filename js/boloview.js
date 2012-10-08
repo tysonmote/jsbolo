@@ -133,47 +133,6 @@
         )).moveWithin(BOLO.bolo.maxViewRect);
       },
 
-      // centers on rect in pixel coordinates
-      zoomOnRect: function (rect) {
-        var
-          canvas = this.canvas,
-          scale = this.scale,
-          canvasWidth = canvas.width,
-          width = canvasWidth,
-          height = canvas.height,
-          rectWidth = rect.width,
-          rectHeight = rect.height,
-          ratio = width / height,
-          dx, dy;
-
-        if (ratio > (rectWidth / rectHeight)) {
-          // height bound
-
-          dx = ((rectHeight * ratio) - rectWidth) / 2;
-          dy = 0;
-
-          width = rectHeight * ratio;
-          height = rectHeight;
-        } else {
-          // width bound
-
-          dx = 0;
-          dy = ((rectWidth / ratio) - rectHeight) / 2;
-
-          width = rectWidth;
-          height = rectWidth / ratio;
-        }
-
-        this.viewRect = (new BOLO.Rect(
-          rect.x - dx,
-          rect.y - dy,
-          width,
-          height
-        )).moveWithin(BOLO.bolo.maxViewRect);
-
-        this.scale = canvasWidth / this.viewRect.width;
-      },
-
       // increases scale
       zoomIn: function () {
         var
@@ -263,31 +222,21 @@
           viewRect = this.viewRect;
 
         if (this.tileMap) {
-          if (scale >= 0.5) {
-            ctx.save();
+          ctx.save();
 
-            // setup matrix
-            ctx.scale(scale, scale);
-            ctx.translate(-viewRect.x, -viewRect.y);
+          // setup matrix
+          ctx.scale(scale, scale);
+          ctx.translate(-viewRect.x, -viewRect.y);
 
-            // setup clipping region
-            ctx.beginPath();
-            ctx.rect(rect.x, rect.y, rect.width, rect.height);
-            ctx.clip();
+          // setup clipping region
+          ctx.beginPath();
+          ctx.rect(rect.x, rect.y, rect.width, rect.height);
+          ctx.clip();
 
-            // draw tiles under rect
-            this.tileMap.drawRect(ctx, rect.tilize(tileWidth));
+          // draw tiles under rect
+          this.tileMap.drawRect(ctx, rect.tilize(tileWidth));
 
-            ctx.restore();
-          } else {
-            ctx.save();
-
-            //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.tileMap.drawColorRect(ctx, rect.tilize(tileWidth),
-              16 * (this.canvas.width / rect.width));
-
-            ctx.restore();
-          }
+          ctx.restore();
         }
       }
     };

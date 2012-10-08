@@ -105,10 +105,14 @@
         break;
 
       case 'gameData':
-        ns.gameData = ns.bmapString.readMapString(obj.data);
+        ns.gameData = ns.BMap.fromString(obj.data);
         ns.ui.setGameData(ns.gameData);
         //ns.tileMap = ns.TileMap(ns.gameData);
         //ns.camera.refresh();
+        break;
+
+      case 'mapPreviewData':
+        ns.ui.setMapPreview(ns.BMap.fromString(obj.data));
         break;
 
       default:
@@ -130,6 +134,13 @@
   ns.client.newGame = function (mapName) {
     send({
       message: 'newGame',
+      mapName: mapName
+    });
+  };
+
+  ns.client.mapPreview = function (mapName) {
+    send({
+      message: 'mapPreview',
       mapName: mapName
     });
   };

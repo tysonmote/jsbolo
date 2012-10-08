@@ -34,7 +34,7 @@ var BOLO = {};
     // script files
     'js/bolo.js',
     'js/boloview.js',
-    'js/bmapstring.js',
+    'js/bmap.js',
     'js/rect.js',
     'js/tilemap.js',
     'js/client.js',

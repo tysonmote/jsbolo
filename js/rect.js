@@ -1,16 +1,23 @@
 /* Author: Robert Chrzanowski */
 
 /*jslint
-  browser: true, devel: true, indent: 2 */
+  browser: true, node: true, devel: true, indent: 2 */
 
 /*globals BOLO */
 
 (function () {
   'use strict';
 
-  var
-    ns = BOLO,
-    Rect;
+  var ns, Rect;
+
+  if (typeof window === 'undefined') {
+    // we're in node
+    ns = exports;
+
+  } else {
+    // we're in a browser
+    ns = window.BOLO;
+  }
 
   ns.Rect = Rect = (function () {
     var prototype = {

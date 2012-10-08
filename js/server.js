@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  var fs, path, crypto, ws, parse, bmapFile, bmapString,
+  var fs, path, crypto, ws, parse, bmap,
     sendMapList,
     sendGameList,
     games;
@@ -17,8 +17,7 @@
 
   ws = require('./websocket.js');
   parse = require('./parse.js');
-  bmapFile = require('./bmapfile.js');
-  bmapString = require('./bmapstring.js');
+  bmap = require('./bmap.js');
 
   // array of all current playing games
   games = [];
@@ -126,14 +125,14 @@
               throw err;
             }
 
-            id = games.push(bmapFile.loadMap(file)) - 1;
+            id = games.push(bmap.BMap.fromData(file)) - 1;
 
             send({
               message: 'gameData',
               id: id,
               title: title,
               map: map,
-              data: bmapString.saveMapString(games[id])
+              data: games[id].toString()
             });
           };
         }(obj.mapName, 'No Title')));
@@ -142,6 +141,25 @@
 
       case 'watchGame':
         console.log('watchGame');
+
+        break;
+
+      case 'mapPreview':
+        fs.readFile(path.join('maps', obj.mapName), (function (map) {
+          return function (err, file) {
+            var id;
+
+            if (err) {
+              throw err;
+            }
+
+            send({
+              message: 'mapPreviewData',
+              map: map,
+              data: bmap.BMap.fromData(file).toString()
+            });
+          };
+        }(obj.mapName)));
 
         break;
 

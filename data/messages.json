@@ -48,6 +48,19 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "message": "mapPreviewData",
+      "properties": [
+        {
+          "name": "map",
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ]
     }
   ],
   "client": [
@@ -62,6 +75,13 @@
       "message": "watchGame",
       "properties": [{
         "name": "gameName",
+        "type": "string"
+      }]
+    },
+    {
+      "message": "mapPreview",
+      "properties": [{
+        "name": "mapName",
         "type": "string"
       }]
     },

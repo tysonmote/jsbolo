@@ -22,8 +22,7 @@
     addWheelListener,
     mainCanvas,
     mapPreviewCanvas,
-    mainView,
-    mapPreview;
+    mainView;
 
   ns.ui = {};
 
@@ -188,9 +187,6 @@
 
     // creates BoloView objects for main view and preview
     mainView = new ns.BoloView(mainCanvas);
-    mapPreview = new ns.BoloView(mapPreviewCanvas);
-    mapPreview.resize(256, 256);
-    //mapPreview.centerOnRect(new ns.Rect(64 * 16, 65 * 16, 256 * 8, 256 * 8));
 
     // handle window resize event
     window.onresize = function () {
@@ -392,21 +388,23 @@
 
         // makes new game button look clickable
         newGameDiv.className = 'button';
+
+        ns.client.mapPreview(selectedElement.textContent);
       }
     };
   };
 
-  ns.ui.setGameData = function (gameData) {
+  ns.ui.setGameData = function (bmap) {
     var
-      center = gameData.centerRect.center(),
-      tileMap = new ns.TileMap(gameData);
+      center = bmap.centerRect.center(),
+      tileMap = new ns.TileMap(bmap);
 
     mainView.setTileMap(tileMap);
-    mainView.centerView(center.x, center.y);
+    mainView.centerView(center.x * 16, center.y * 16);
     mainView.draw();
+  };
 
-    mapPreview.setTileMap(tileMap);
-    mapPreview.zoomOnRect(gameData.centerRect);
-    mapPreview.draw();
+  ns.ui.setMapPreview = function (bmap) {
+    bmap.draw(mapPreviewCanvas);
   };
 }());
