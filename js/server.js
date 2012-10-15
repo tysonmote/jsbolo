@@ -83,7 +83,7 @@
 
     console.log('upgrade');
 
-    // a currying like function
+    // a curry-like function
     send = function (message) {
       return socket.write(ws.encode(parse.writeMessage('server', message)));
     };
@@ -136,19 +136,15 @@
             });
           };
         }(obj.mapName, 'No Title')));
-
         break;
 
       case 'watchGame':
         console.log('watchGame');
-
         break;
 
       case 'mapPreview':
         fs.readFile(path.join('maps', obj.mapName), (function (map) {
           return function (err, file) {
-            var id;
-
             if (err) {
               throw err;
             }
@@ -160,12 +156,25 @@
             });
           };
         }(obj.mapName)));
-
         break;
 
       case 'enterGame':
         console.log('enterGame');
+        break;
 
+      case 'listGames':
+        /*send({
+          message: 'gameList',
+          id: id,
+          title: title,
+          map: map,
+          players: [
+            {
+              nickname: 'bob'
+            }
+          ]
+        });*/
+        console.log('listGames');
         break;
 
       default:

@@ -190,18 +190,13 @@
 
     // handle window resize event
     window.onresize = function () {
-      var
-        windowWidth = window.innerWidth,
-        windowHeight = window.innerHeight;
-
-      // set body to window size
+      var windowHeight = window.innerHeight;
       document.body.setAttribute(
         'style',
-        'width: ' + windowWidth + 'px; ' +
-          'height: ' + windowHeight + 'px;'
+        'height: ' + windowHeight + 'px;'
       );
 
-      mainView.resize(windowWidth, windowHeight);
+      mainView.resize(window.innerWidth, windowHeight);
     };
 
     // initialize body and canvas

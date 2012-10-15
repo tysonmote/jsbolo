@@ -61,6 +61,31 @@
           "type": "string"
         }
       ]
+    },
+    {
+      "message": "listGames",
+      "properties": [
+        {
+          "name": "id",
+          "type": "uint16"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "map",
+          "type": "string"
+        },
+        {
+          "name": "players",
+          "type": "array",
+          "properties": [{
+            "name": "nickname",
+            "type": "string"
+          }]
+        }
+      ]
     }
   ],
   "client": [
@@ -91,6 +116,10 @@
         "name": "gameName",
         "type": "string"
       }]
+    },
+    {
+      "message": "listGames",
+      "properties": []
     }
   ]
 }

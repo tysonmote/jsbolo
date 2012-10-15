@@ -5,11 +5,10 @@
 
 /*globals BOLO */
 
-(function () {
+(function (ns) {
   'use strict';
 
   var
-    ns = BOLO,
     Tile,
     TileMap;
 
@@ -22,10 +21,7 @@
         tile.y = y;
 
         return tile;
-      },
-
-      x: 0,
-      y: 0
+      }
     };
 
     return prototype.constructor;
@@ -35,21 +31,45 @@
     var prototype = {
       constructor: function (gameData) {
         var
-          tileMap = Object.create(prototype),
-          x, y, width, map, tiles, row;
+          tileMap,
+          x, y, width, map, tiles, row,
+          pills, nPills, pill, bases, nBases, base, i;
 
+        tileMap = Object.create(prototype);
+        tileMap.pills = pills = gameData.pills;
+        tileMap.bases = bases = gameData.bases;
         tileMap.map = map = [];
         tileMap.tiles = tiles = [];
+
         width = ns.bolo.width;
 
         // initializes map and tiles
         for (y = 0; y < width; y += 1) {
-          map[y] = row = [];
           tiles[y] = [];
-
+          map[y] = row = [];
           for (x = 0; x < width; x += 1) {
             row[x] = gameData.terrain[y][x];
           }
+        }
+
+        nBases = bases.length;
+        for (i = 0; i < nBases; i += 1) {
+          base = bases[i];
+          x = base.x;
+          y = base.y;
+          if (base.owner === 0xff) {
+            map[y][x] = ns.bolo.terrainName.neutralBase;
+          } else {
+            map[y][x] = ns.bolo.terrainName.enemyBase;
+          }
+        }
+
+        nPills = pills.length;
+        for (i = 0; i < nPills; i += 1) {
+          pill = pills[i];
+          x = pill.x;
+          y = pill.y;
+          map[y][x] = ns.bolo.terrainName.enemyPill15;
         }
 
         // refreshes tiles
@@ -61,6 +81,47 @@
       refreshTile: (function () {
         // closure contains all tile objects
         var
+          enemyPillTiles = [
+            new Tile(0, 0),
+            new Tile(1, 0),
+            new Tile(2, 0),
+            new Tile(3, 0),
+            new Tile(4, 0),
+            new Tile(5, 0),
+            new Tile(6, 0),
+            new Tile(7, 0),
+            new Tile(8, 0),
+            new Tile(9, 0),
+            new Tile(10, 0),
+            new Tile(11, 0),
+            new Tile(12, 0),
+            new Tile(13, 0),
+            new Tile(14, 0),
+            new Tile(15, 0)
+          ],
+          friendlyPillTiles = [
+            new Tile(0, 1),
+            new Tile(1, 1),
+            new Tile(2, 1),
+            new Tile(3, 1),
+            new Tile(4, 1),
+            new Tile(5, 1),
+            new Tile(6, 1),
+            new Tile(7, 1),
+            new Tile(8, 1),
+            new Tile(9, 1),
+            new Tile(10, 1),
+            new Tile(11, 1),
+            new Tile(12, 1),
+            new Tile(13, 1),
+            new Tile(14, 1),
+            new Tile(15, 1)
+          ],
+          baseTiles = [
+            new Tile(12, 2),
+            new Tile(13, 2),
+            new Tile(14, 2)
+          ],
           wallTiles = [
             new Tile(0,  7),
             new Tile(1,  7),
@@ -250,9 +311,31 @@
             grass = terrainName.grass.properties,
             damagedWall = terrainName.damagedWall.properties,
             boat = terrainName.boat.properties,
-            sea = terrainName.sea.properties;
+            sea = terrainName.sea.properties,
+
+            deadEnemyPill = terrainName.enemyPill0.properties,
+            enemyPill = terrainName.enemyPill15.properties,
+
+            deadFriendlyPill = terrainName.friendlyPill0.properties,
+            friendlyPill = terrainName.friendlyPill15.properties,
+
+            base = terrainName.enemyBase.properties;
 
           switch (map[y][x].properties) {
+          case deadEnemyPill:
+          case enemyPill:
+            tile = enemyPillTiles[map[y][x].id];
+            break;
+
+          case deadFriendlyPill:
+          case friendlyPill:
+            tile = friendlyPillTiles[map[y][x].id];
+            break;
+
+          case base:
+            tile = baseTiles[map[y][x].id];
+            break;
+
           case wall:
             properties = terrainName.wall.properties;
 
@@ -842,8 +925,6 @@
             break;
 
           case road:
-            properties = terrainName.road.properties;
-
             lftbot = (x > 0   && y < 255) ?
                 map[y + 1][x - 1].properties : seaProperties;
 
@@ -857,30 +938,30 @@
                 map[y - 1][x + 1].properties : seaProperties;
 
             num =
-              (left   === properties ? 8 : 0) +
-              (right  === properties ? 4 : 0) +
-              (bottom === properties ? 2 : 0) +
-              (top    === properties ? 1 : 0);
+              (left.isRoadLike ? 8 : 0) +
+              (right.isRoadLike ? 4 : 0) +
+              (bottom.isRoadLike ? 2 : 0) +
+              (top.isRoadLike ? 1 : 0);
 
             switch (num) {
             case 6:
               index = left.isWaterLike && top.isWaterLike ? 16 :
-                  (rghbot.isWaterLike ? 13 : 1);
+                  (rghbot.isRoadLike ? 13 : 1);
               break;
 
             case 10:
               index = right.isWaterLike && top.isWaterLike ? 18 :
-                  (lftbot.isWaterLike ? 15 : 2);
+                  (lftbot.isRoadLike ? 15 : 2);
               break;
 
             case 5:
               index = left.isWaterLike && bottom.isWaterLike ? 28 :
-                  (rghtop.isWaterLike ? 25 : 3);
+                  (rghtop.isRoadLike ? 25 : 3);
               break;
 
             case 9:
               index = right.isWaterLike && bottom.isWaterLike ? 30 :
-                  (lfttop.isWaterLike ? 27 : 4);
+                  (lfttop.isRoadLike ? 27 : 4);
               break;
 
             case 1:
@@ -897,28 +978,28 @@
 
             case 7:
               index = left.isWaterLike ? 22 :
-                  (rghbot === properties || rghtop === properties ? 19 : 7);
+                  (rghbot.isRoadLike || rghtop.isRoadLike ? 19 : 7);
               break;
 
             case 13:
               index = bottom.isWaterLike ? 29 :
-                  (lfttop === properties || rghtop === properties ? 26 : 8);
+                  (lfttop.isRoadLike || rghtop.isRoadLike ? 26 : 8);
               break;
 
             case 14:
               index = top.isWaterLike ? 17 :
-                  (lftbot === properties || rghbot === properties ? 14 : 9);
+                  (lftbot.isRoadLike || rghbot.isRoadLike ? 14 : 9);
               break;
 
             case 11:
               index = right.isWaterLike ? 24 :
-                  (lftbot === properties || lfttop === properties ? 21 : 10);
+                  (lftbot.isRoadLike || lfttop.isRoadLike ? 21 : 10);
               break;
 
             case 15:
               index =
-                lftbot !== properties && rghbot !== properties &&
-                lfttop !== properties && rghtop !== properties ?
+                !lftbot.isRoadLike && !rghbot.isRoadLike &&
+                !lfttop.isRoadLike && !rghtop.isRoadLike ?
                     0 : 20;
               break;
 
@@ -1191,4 +1272,4 @@
 
     return prototype.constructor;
   }());
-}());
+}(BOLO));

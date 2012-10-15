@@ -76,7 +76,7 @@ td { vertical-align: top; }
 
 body {
   overflow: hidden; /* prevents scolling when body is smaller than the window */
-  width: 1024px;/*ipad*//*480px;/*iphone*/
+  width: 100%;/*1024px;/*ipad*//*480px;/*iphone*/
   height: 738px;/*ipad*//*300px;/*iphone*/
   border: 0;
   padding: 0;

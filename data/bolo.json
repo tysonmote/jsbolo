@@ -8,6 +8,190 @@
   "tankAccelation": 3.125,
   "maxBoatTurnRate": 2.5,
 
+  "enemyPillArray": [
+    {
+      "name": "enemyPill0",
+      "propertyName": "enemyDeadPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill1",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill2",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill3",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill4",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill5",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill6",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill7",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill8",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill9",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill10",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill11",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill12",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill13",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill14",
+      "propertyName": "enemyPill",
+      "isMined": false
+    },
+    {
+      "name": "enemyPill15",
+      "propertyName": "enemyPill",
+      "isMined": false
+    }
+  ],
+
+  "friendlyPillArray": [
+    {
+      "name": "friendlyPill0",
+      "propertyName": "friendlyDeadPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill1",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill2",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill3",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill4",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill5",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill6",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill7",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill8",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill9",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill10",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill11",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill12",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill13",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill14",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    },
+    {
+      "name": "friendlyPill15",
+      "propertyName": "friendlyPill",
+      "isMined": false
+    }
+  ],
+
+  "basesArray": [
+    {
+      "name": "neutralBase",
+      "propertyName": "base",
+      "isMined": false
+    },
+    {
+      "name": "friendlyBase",
+      "propertyName": "base",
+      "isMined": false
+    },
+    {
+      "name": "enemyBase",
+      "propertyName": "base",
+      "isMined": false
+    }
+  ],
+
   "terrainArray": [
     {
       "name": "wall",
@@ -100,11 +284,14 @@
       "isMined": true
     }
   ],
-  "terrainProperties": {
+
+
+  "properties": {
     "wall": {
       "isWaterSource": false,
       "isWaterLike": false,
       "isWallLike": true,
+      "isRoadLike": false,
       "canBeMined": false,
       "maxSpeed": 0,
       "maxTurnRate": 0,
@@ -115,6 +302,7 @@
       "isWaterSource": true,
       "isWaterLike": true,
       "isWallLike": false,
+      "isRoadLike": false,
       "canBeMined": false,
       "maxSpeed": 0.5859375,
       "maxTurnRate": 0.625,
@@ -125,6 +313,7 @@
       "isWaterSource": false,
       "isWaterLike": false,
       "isWallLike": false,
+      "isRoadLike": false,
       "canBeMined": true,
       "maxSpeed": 0.5859375,
       "maxTurnRate": 0.625,
@@ -135,6 +324,7 @@
       "isWaterSource": false,
       "isWaterLike": false,
       "isWallLike": false,
+      "isRoadLike": false,
       "canBeMined": true,
       "maxSpeed": 0.5859375,
       "maxTurnRate": 0.625,
@@ -145,6 +335,7 @@
       "isWaterSource": false,
       "isWaterLike": true,
       "isWallLike": false,
+      "isRoadLike": true,
       "canBeMined": true,
       "maxSpeed": 3.125,
       "maxTurnRate": 2.5,
@@ -155,6 +346,7 @@
       "isWaterSource": false,
       "isWaterLike": false,
       "isWallLike": false,
+      "isRoadLike": false,
       "canBeMined": true,
       "maxSpeed": 1.171875,
       "maxTurnRate": 1.25,
@@ -165,6 +357,7 @@
       "isWaterSource": false,
       "isWaterLike": false,
       "isWallLike": true,
+      "isRoadLike": false,
       "canBeMined": true,
       "maxSpeed": 0.5859375,
       "maxTurnRate": 0.625,
@@ -175,6 +368,7 @@
       "isWaterSource": false,
       "isWaterLike": false,
       "isWallLike": false,
+      "isRoadLike": false,
       "canBeMined": true,
       "maxSpeed": 2.34375,
       "maxTurnRate": 2.5,
@@ -185,6 +379,7 @@
       "isWaterSource": false,
       "isWaterLike": false,
       "isWallLike": true,
+      "isRoadLike": false,
       "canBeMined": false,
       "maxSpeed": 0,
       "maxTurnRate": 0,
@@ -195,6 +390,7 @@
       "isWaterSource": true,
       "isWaterLike": true,
       "isWallLike": false,
+      "isRoadLike": false,
       "canBeMined": false,
       "maxSpeed": 3.125,
       "maxTurnRate": 2.5,
@@ -205,11 +401,67 @@
       "isWaterSource": true,
       "isWaterLike": true,
       "isWallLike": false,
+      "isRoadLike": false,
       "canBeMined": true,
       "maxSpeed": 0,
       "maxTurnRate": 0,
       "builderSpeed": 0,
       "color": "#0000FF"
+    },
+    "enemyDeadPill": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": false,
+      "isRoadLike": true,
+      "canBeMined": false,
+      "maxSpeed": 0,
+      "maxTurnRate": 0,
+      "builderSpeed": 0,
+      "color": "#FF0000"
+    },
+    "enemyPill": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": false,
+      "isRoadLike": true,
+      "canBeMined": false,
+      "maxSpeed": 0,
+      "maxTurnRate": 0,
+      "builderSpeed": 0,
+      "color": "#FF0000"
+    },
+    "friendlyDeadPill": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": false,
+      "isRoadLike": true,
+      "canBeMined": false,
+      "maxSpeed": 0,
+      "maxTurnRate": 0,
+      "builderSpeed": 0,
+      "color": "#FF0000"
+    },
+    "friendlyPill": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": false,
+      "isRoadLike": true,
+      "canBeMined": false,
+      "maxSpeed": 0,
+      "maxTurnRate": 0,
+      "builderSpeed": 0,
+      "color": "#FF0000"
+    },
+    "base": {
+      "isWaterSource": false,
+      "isWaterLike": false,
+      "isWallLike": false,
+      "isRoadLike": true,
+      "canBeMined": false,
+      "maxSpeed": 3.125,
+      "maxTurnRate": 2.5,
+      "builderSpeed": 3.125,
+      "color": "#FFFF00"
     }
   }
 }

@@ -8,8 +8,12 @@
 (function () {
   'use strict';
 
-  var i, bolo, json, propertyName, terrainProperties, terrainArray,
-    terrainName, length, t;
+  var i, bolo, json, propertyName,
+    terrainArray, terrain,
+    enemyPillArray, enemyPill,
+    friendlyPillArray, friendlyPill,
+    basesArray, base,
+    terrainName, properties, length;
 
   if (typeof window === 'undefined') {
     // we're in node
@@ -32,16 +36,44 @@
 
   // dereference terrain properties in bolo object and map names to terrain
   // in terrainName
-  terrainProperties = bolo.terrainProperties;
-  terrainArray = bolo.terrainArray;
-  length = terrainArray.length;
   bolo.terrainName = {};
   terrainName = bolo.terrainName;
 
+  properties = bolo.properties;
+
+  terrainArray = bolo.terrainArray;
+  length = terrainArray.length;
   for (i = 0; i < length; i += 1) {
-    t = terrainArray[i];
-    t.id = i;
-    t.properties = terrainProperties[t.propertyName];
-    terrainName[t.name] = t;
+    terrain = terrainArray[i];
+    terrain.id = i;
+    terrain.properties = properties[terrain.propertyName];
+    terrainName[terrain.name] = terrain;
+  }
+
+  enemyPillArray = bolo.enemyPillArray;
+  length = enemyPillArray.length;
+  for (i = 0; i < length; i += 1) {
+    enemyPill = enemyPillArray[i];
+    enemyPill.id = i;
+    enemyPill.properties = properties[enemyPill.propertyName];
+    terrainName[enemyPill.name] = enemyPill;
+  }
+
+  friendlyPillArray = bolo.friendlyPillArray;
+  length = friendlyPillArray.length;
+  for (i = 0; i < length; i += 1) {
+    friendlyPill = friendlyPillArray[i];
+    friendlyPill.id = i;
+    friendlyPill.properties = properties[friendlyPill.propertyName];
+    terrainName[friendlyPill.name] = friendlyPill;
+  }
+
+  basesArray = bolo.basesArray;
+  length = basesArray.length;
+  for (i = 0; i < length; i += 1) {
+    base = basesArray[i];
+    base.id = i;
+    base.properties = properties[base.propertyName];
+    terrainName[base.name] = base;
   }
 }());
