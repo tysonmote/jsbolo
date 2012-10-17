@@ -7,9 +7,7 @@
   'use strict';
 
   var fs, path, crypto, ws, parse, bmap,
-    sendMapList,
-    sendGameList,
-    games;
+    gamesArray;
 
   fs = require('fs');
   path = require('path');
@@ -20,43 +18,13 @@
   bmap = require('./bmap.js');
 
   // array of all current playing games
-  games = [];
-
-  sendMapList = function (send) {
-    fs.readdir('./maps', function (err, list) {
-      var mapList, i, length;
-
-      if (err) {
-        throw err;
-      }
-
-      mapList = [];
-      length = list.length;
-
-      for (i = 0; i < length; i += 1) {
-        mapList.push({
-          mapName: list[i]
-        });
-      }
-
-      send({
-        message: 'mapList',
-        list: mapList
-      });
-    });
-  };
-
-  sendGameList = function (send) {
-    send({
-      message: 'gameList',
-      list: []
-    });
-  };
+  gamesArray = [];
 
   exports.upgrade = function (request, socket, head) {
     var magicString, secWsKey, hash, handshake,
-      send;
+      send, player;
 
+    // initialize connection with objects
     if (request.headers['sec-websocket-protocol'] !== 'bolo') {
       console.log('incompatible protocol ' +
                   request.headers['sec-websocket-protocol']);
@@ -81,6 +49,12 @@
 
     socket.write(handshake);
 
+    player = {
+      nickname: 'foobar',
+      watchingArray: [],
+      playingArray: []
+    };
+
     console.log('upgrade');
 
     // a curry-like function
@@ -88,15 +62,13 @@
       return socket.write(ws.encode(parse.writeMessage('server', message)));
     };
 
-    // send file list of maps
-    sendMapList(send);
-    sendGameList(send);
-
     socket.on('error', function (error) {
+      // disconnect from games
       console.log('socket error ' + error);
     });
 
     socket.on('close', function (had_error) {
+      // disconnect from games
       if (had_error) {
         console.log('transmission error');
 
@@ -106,6 +78,8 @@
     });
 
     socket.on('end', function () {
+      // disconnect from games
+
       console.log('end');
     });
 
@@ -116,46 +90,70 @@
 
       switch (obj.message) {
       case 'newGame':
-        // closure saving name of map as a parameter
-        fs.readFile(path.join('maps', obj.mapName), (function (map, title) {
+        fs.readFile(path.join('maps', obj.map), (function (map, title) {
           return function (err, file) {
-            var id;
+            var gameInfo;
 
             if (err) {
               throw err;
             }
 
-            id = games.push(bmap.BMap.fromData(file)) - 1;
+            gameInfo = {
+              title: title,
+              map: map,
+              data: bmap.BMap.fromData(file),
+              playing: [player],
+              watching: []
+            };
 
             send({
               message: 'gameData',
-              id: id,
-              title: title,
-              map: map,
-              data: games[id].toString()
+              id: gamesArray.push(gameInfo) - 1,
+              title: gameInfo.title,
+              map: gameInfo.map,
+              data: gameInfo.data.toString()
             });
+
+            player.playingArray.push(gameInfo);
           };
-        }(obj.mapName, 'No Title')));
+        }(obj.map, obj.title)));
         break;
 
       case 'watchGame':
-        console.log('watchGame');
+        (function () {
+          var gameInfo;
+
+          gameInfo = gamesArray[obj.id];
+
+          send({
+            message: 'watchData',
+            id: obj.id,
+            title: gameInfo.title,
+            map: gameInfo.map,
+            data: gameInfo.data.toString()
+          });
+
+          gameInfo.watching.push(player);
+          player.watchingArray.push(gameInfo);
+
+          console.log('watchGame');
+        }());
         break;
 
-      case 'mapPreview':
-        fs.readFile(path.join('maps', obj.mapName), (function (map) {
+      case 'preview':
+        fs.readFile(path.join('maps', obj.map), (function (map) {
           return function (err, file) {
             if (err) {
               throw err;
             }
 
             send({
-              message: 'mapPreviewData',
+              message: 'previewData',
               map: map,
               data: bmap.BMap.fromData(file).toString()
             });
           };
-        }(obj.mapName)));
+        }(obj.map)));
         break;
 
       case 'enterGame':
@@ -163,23 +161,66 @@
         break;
 
       case 'listGames':
-        /*send({
-          message: 'gameList',
-          id: id,
-          title: title,
-          map: map,
-          players: [
-            {
-              nickname: 'bob'
+        (function () {
+          var list, length, game, i, players, playingLength, j;
+
+          list = [];
+          length = gamesArray.length;
+          for (i = 0; i < length; i += 1) {
+            game = gamesArray[i];
+
+            if (game) {
+              players = [];
+              playingLength = game.playing.length;
+              for (j = 0; j < playingLength; j += 1) {
+                players[j] = {
+                  nickname: game.playing[j].nickname
+                };
+              }
+
+              list.push({
+                id: i,
+                title: game.title,
+                map: game.map,
+                players: players
+              });
             }
-          ]
-        });*/
-        console.log('listGames');
+          }
+
+          send({
+            message: 'gameList',
+            list: list
+          });
+          console.log('listGames');
+        }());
         break;
 
       default:
         break;
       }
+    });
+
+    // send list of map files
+    fs.readdir('./maps', function (err, list) {
+      var mapList, i, length;
+
+      if (err) {
+        throw err;
+      }
+
+      mapList = [];
+      length = list.length;
+
+      for (i = 0; i < length; i += 1) {
+        mapList.push({
+          map: list[i]
+        });
+      }
+
+      send({
+        message: 'mapList',
+        list: mapList
+      });
     });
   };
 }());

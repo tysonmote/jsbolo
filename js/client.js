@@ -111,7 +111,7 @@
         //ns.camera.refresh();
         break;
 
-      case 'mapPreviewData':
+      case 'previewData':
         ns.ui.setMapPreview(ns.BMap.fromString(obj.data));
         break;
 
@@ -131,17 +131,18 @@
     };
   };
 
-  ns.client.newGame = function (mapName) {
+  ns.client.newGame = function (map) {
     send({
       message: 'newGame',
-      mapName: mapName
+      map: map,
+      title: 'No Title'
     });
   };
 
-  ns.client.mapPreview = function (mapName) {
+  ns.client.preview = function (map) {
     send({
-      message: 'mapPreview',
-      mapName: mapName
+      message: 'preview',
+      map: map
     });
   };
 

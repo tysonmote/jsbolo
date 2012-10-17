@@ -6,27 +6,39 @@
         "name": "list",
         "type": "array",
         "properties": [{
-            "name": "mapName",
+            "name": "map",
             "type": "string"
         }]
       }]
     },
     {
       "message": "gameList",
-      "properties": [{
+      "properties": {
         "name": "list",
         "type": "array",
         "properties": [
           {
-            "name": "mapName",
+            "name": "id",
+            "type": "uint16"
+          },
+          {
+            "name": "title",
             "type": "string"
           },
           {
-            "name": "nPlayers",
-            "type": "uint8"
+            "name": "map",
+            "type": "string"
+          },
+          {
+            "name": "players",
+            "type": "array",
+            "properties": [{
+              "name": "nickname",
+              "type": "string"
+            }]
           }
         ]
-      }]
+      }
     },
     {
       "message": "gameData",
@@ -50,7 +62,7 @@
       ]
     },
     {
-      "message": "mapPreviewData",
+      "message": "previewData",
       "properties": [
         {
           "name": "map",
@@ -61,52 +73,35 @@
           "type": "string"
         }
       ]
-    },
-    {
-      "message": "listGames",
-      "properties": [
-        {
-          "name": "id",
-          "type": "uint16"
-        },
-        {
-          "name": "title",
-          "type": "string"
-        },
-        {
-          "name": "map",
-          "type": "string"
-        },
-        {
-          "name": "players",
-          "type": "array",
-          "properties": [{
-            "name": "nickname",
-            "type": "string"
-          }]
-        }
-      ]
     }
   ],
   "client": [
     {
       "message": "newGame",
-      "properties": [{
-        "name": "mapName",
-        "type": "string"
-      }]
+      "properties": [
+        {
+          "name": "map",
+          "type": "string"
+        },
+        {
+            "name": "title",
+            "type": "string"
+        }
+      ]
     },
     {
       "message": "watchGame",
-      "properties": [{
-        "name": "gameName",
-        "type": "string"
-      }]
+      "properties": [
+        {
+          "name": "map",
+          "type": "string"
+        }
+      ]
     },
     {
-      "message": "mapPreview",
+      "message": "preview",
       "properties": [{
-        "name": "mapName",
+        "name": "map",
         "type": "string"
       }]
     },

@@ -39,8 +39,8 @@
 
         // this clears the canvas and sets it to the width and height to match
         // computed size
-        canvas.width = width;//canvas.clientWidth;
-        canvas.height = height;//canvas.clientHeight;
+        canvas.width = width;
+        canvas.height = height;
 
         this.centerView(
           BOLO.bolo.maxViewRect.width / 2,

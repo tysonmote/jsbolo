@@ -75,17 +75,16 @@ td { vertical-align: top; }
    ========================================================================== */
 
 body {
-  overflow: hidden; /* prevents scolling when body is smaller than the window */
-  width: 100%;/*1024px;/*ipad*//*480px;/*iphone*/
-  height: 738px;/*ipad*//*300px;/*iphone*/
+  overflow: hidden;
+  width: 100%;
   border: 0;
   padding: 0;
   margin: 0;
 }
 
 #boloContainer {
-  width: inherit;
-  height: inherit;
+  width: 100%;
+  height: 100%;
   border: 0;
   padding: 0;
   margin: 0;
@@ -93,39 +92,23 @@ body {
 
 #overlay {
   position: absolute;
-  width: inherit;
-  height: inherit;
+  width: 100%;
+  height: 100%;
   border: 0;
   padding: 0;
   margin: 0;
 }
 
-#menu {
-  position: absolute;
-  width: inherit;
-  height: inherit;
-  border: 0;
-  padding: 0;
-  margin: 0;
-}
-
-.sheet {
+#sheetBody {
   float: right;
-  height: 738px; /* body.height */
+  height: 100%;
   border: 0;
   padding: 0;
   margin: 0;
-} .tabBody {
-  float: right;
-  height: inherit;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  background: #aaa;
 } .list {
   float: right;
-  overflow: auto; /* allows vertical scroll */
-  height: inherit;
+  overflow: auto;
+  height: 100%;
   border: 0;
   padding: 0;
   margin: 0;
@@ -133,16 +116,17 @@ body {
 } #newGameForm {
   float: right;
   overflow: hidden;
-  /*width: 0px;*/
-  height: inherit;
+  height: 100%;
   border: 0;
   padding: 0;
   margin: 0;
   background: #ccc;
-} #tabBar {
+}
+
+#sheetTab {
   float: right;
   width: 40px;
-  height: 400px;
+  height: 100%;
   border: 0;
   padding: 0;
   margin: 0;
@@ -162,7 +146,7 @@ body {
   margin: 0;
   display: block;
   -webkit-transform: rotate(-90deg); 
-  -moz-transform: rotate(-90deg);	
+  -moz-transform: rotate(-90deg); 
 }
 
 ol {
@@ -174,60 +158,60 @@ ol {
 } li {
   list-style: none;
   width: inherit;
-	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
-	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
-	background-color:#ededed;
-	border:1px solid #dcdcdc;
-	/*display:inline-block;*/
-	color:#777777;
-	font-family:arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:1px 1px 0px #ffffff;
+  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+  background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+  background-color:#ededed;
+  border:1px solid #dcdcdc;
+  /*display:inline-block;*/
+  color:#777777;
+  font-family:arial;
+  font-size:15px;
+  font-weight:bold;
+  padding:6px 24px;
+  text-decoration:none;
+  text-shadow:1px 1px 0px #ffffff;
 } li:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
-	background-color:#dfdfdf;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+  background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+  background-color:#dfdfdf;
 } li:active {
   background: #ffffff;
-	background-color:#d0d0d0;
+  background-color:#d0d0d0;
 }
 
 .button {
-	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
-	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
-	background-color:#ededed;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	color:#777777;
-	font-family:Verdana;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:1px 1px 0px #ffffff;
+  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+  box-shadow:inset 0px 1px 0px 0px #ffffff;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+  background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+  background-color:#ededed;
+  border:1px solid #dcdcdc;
+  display:inline-block;
+  color:#777777;
+  font-family:Verdana;
+  font-size:15px;
+  font-weight:bold;
+  padding:6px 24px;
+  text-decoration:none;
+  text-shadow:1px 1px 0px #ffffff;
 } .button:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
-	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
-	background-color:#dfdfdf;
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+  background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+  background-color:#dfdfdf;
 } .button:active {
-	position:relative;
-	top: 2px;
+  position:relative;
+  top: 2px;
 }
 
-.mapPreview {
+#mapPreview {
   width: 256px;
   height: 256px;
 }
@@ -246,8 +230,8 @@ ol {
   color: #ccc;
   background: #eee;
 } .disabled:active {
-	position: static;
-	top: 0px;
+  position: static;
+  top: 0px;
 }
 
 .hidden {
@@ -269,20 +253,40 @@ ol {
   }
 }*/
 
-#hud {
-  width: inherit;
-  height: inherit;
+canvas#bolo {
   border: 0;
   padding: 0;
   margin: 0;
 }
 
-canvas#bolo {
-  width: inherit;
-  height: inherit;
-  border: 0;
-  padding: 0;
-  margin: 0;
+@media all and (max-width: 640px) {
+  #newGameForm {
+    clear: right;
+    width: 100%;
+    height: auto;
+  }
+  #mapList {
+    width: 100%;
+  }
+  #sheetTab {
+    height: 40px;
+  }
+}
+
+@media all and (max-width: 480px) {
+  #sheetBody {
+    width: 100%;
+  }
+  #sheetTab {
+    position: absolute;
+    right: 0px;
+  }
+}
+
+@media all and (max-height: 380px) {
+  #mapPreview {
+    display: none;
+  }
 }
 
 /* =============================================================================
@@ -290,7 +294,7 @@ canvas#bolo {
    ========================================================================== */
 
 @media only screen and (min-width: 35em) {
-	/* Style adjustments for viewports that meet the condition */
+  /* Style adjustments for viewports that meet the condition */
 }
 
 /* =============================================================================

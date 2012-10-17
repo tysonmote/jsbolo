@@ -10,8 +10,8 @@
 
   var
     ns = BOLO,
-    tabBodyDiv,
-    tabBarDiv,
+    sheetBodyDiv,
+    sheetTabDiv,
     newGameTabDiv,
     watchGameTabDiv,
     newGameDiv,
@@ -20,6 +20,7 @@
     gameListDiv,
     selectedElement,
     addWheelListener,
+    newGameFormDiv,
     mainCanvas,
     mapPreviewCanvas,
     mainView;
@@ -27,8 +28,8 @@
   ns.ui = {};
 
   // get DOM elements
-  tabBodyDiv = document.getElementById('tabBody');
-  tabBarDiv = document.getElementById('tabBar');
+  sheetBodyDiv = document.getElementById('sheetBody');
+  sheetTabDiv = document.getElementById('sheetTab');
 
   newGameTabDiv = document.getElementById('newGameTab');
   watchGameTabDiv = document.getElementById('watchGameTab');
@@ -38,6 +39,8 @@
 
   mapListDiv = document.getElementById('mapList');
   gameListDiv = document.getElementById('gameList');
+
+  newGameFormDiv = document.getElementById('newGameForm');
 
   mainCanvas = document.getElementById('bolo');
   mapPreviewCanvas = document.getElementById('preview');
@@ -157,7 +160,7 @@
     length = list.length;
 
     for (i = 0; i < length; i += 1) {
-      html += '<li>' + list[i].mapName + '</li>\n';
+      html += '<li>' + list[i].map + '</li>\n';
     }
 
     html += '</ol>';
@@ -172,7 +175,7 @@
     length = list.length;
 
     for (i = 0; i < length; i += 1) {
-      html += '<li>' + list[i].mapName + '</li>\n';
+      html += '<li>' + list[i].map + '</li>\n';
     }
 
     html = '</ol>';
@@ -183,21 +186,37 @@
   // initializes the user interface controller
 
   ns.ui.init = function () {
-    var boloContainer = document.getElementById('menu');
+    var overlayDiv = document.getElementById('overlay');
 
     // creates BoloView objects for main view and preview
     mainView = new ns.BoloView(mainCanvas);
 
     // handle window resize event
-    window.onresize = function () {
-      var windowHeight = window.innerHeight;
-      document.body.setAttribute(
-        'style',
-        'height: ' + windowHeight + 'px;'
-      );
+    window.onresize = (function () {
+      var
+        attribSet = false;
 
-      mainView.resize(window.innerWidth, windowHeight);
-    };
+      return function () {
+        var
+          windowWidth = window.innerWidth,
+          windowHeight = window.innerHeight;
+
+        // resizes mainView canvas and redraws
+        mainView.resize(windowWidth, windowHeight);
+
+        // css3 media queries can't do this :-(
+        if (windowWidth < 640) {
+          if (!attribSet) {
+            mapListDiv.setAttribute('style', 'width: 100%; height: ' +
+                (windowHeight - newGameFormDiv.clientHeight) + 'px;');
+            attribSet = true;
+          }
+        } else if (attribSet) {
+          mapListDiv.removeAttribute('style');
+          attribSet = false;
+        }
+      };
+    }());
 
     // initialize body and canvas
     window.onresize();
@@ -232,7 +251,7 @@
         e.preventDefault();
         return false;
       };
-    }(boloContainer));
+    }(overlayDiv));
 
     // touch event handlers
     (function (element) {
@@ -284,12 +303,12 @@
           //document.removeEventListener('touchend', touchEnd, false);
         }
       }, false);
-    }(boloContainer));
+    }(overlayDiv));
 
     // mouse wheel handler
-    addWheelListener(boloContainer, function (e) {
-      // only scroll when over canvas
-      if (e.target === boloContainer) {
+    addWheelListener(overlayDiv, function (e) {
+      // only scroll when mouse is not over an overlay child element
+      if (e.target === overlayDiv) {
         e.preventDefault();
 
         mainView.moveView(
@@ -340,10 +359,10 @@
 
     // register menu events
 
-    // toggles 'hidden' class name on tabBodyDiv
-    tabBarDiv.onclick = function (e) {
+    // toggles 'hidden' class name on sheetBodyDiv
+    sheetTabDiv.onclick = function (e) {
       var
-        className = tabBodyDiv.className,
+        className = sheetBodyDiv.className,
         regex = /(\s+|^)?hidden(\s+|$)?/i;
 
       e.preventDefault();
@@ -354,7 +373,7 @@
         className += ' hidden';
       }
 
-      tabBodyDiv.className = className;
+      sheetBodyDiv.className = className;
     };
 
     newGameDiv.onclick = function (e) {
@@ -364,7 +383,7 @@
       ns.client.newGame(mapName);
 
       // hides the tab body
-      tabBodyDiv.className += ' hidden';
+      sheetBodyDiv.className += ' hidden';
     };
 
     mapListDiv.onclick = function (e) {
@@ -384,7 +403,7 @@
         // makes new game button look clickable
         newGameDiv.className = 'button';
 
-        ns.client.mapPreview(selectedElement.textContent);
+        ns.client.preview(selectedElement.textContent);
       }
     };
   };
