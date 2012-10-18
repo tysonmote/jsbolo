@@ -19,6 +19,7 @@ var BOLO = {};
   assets = [
     // art assets
     'img!img/tiles.png',
+    'img!img/tiles_small.png',
     'img!img/sprites.png'
   ];
 

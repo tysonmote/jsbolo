@@ -22,7 +22,7 @@
     addWheelListener,
     newGameFormDiv,
     mainCanvas,
-    mapPreviewCanvas,
+    previewCanvas,
     mainView;
 
   ns.ui = {};
@@ -43,7 +43,7 @@
   newGameFormDiv = document.getElementById('newGameForm');
 
   mainCanvas = document.getElementById('bolo');
-  mapPreviewCanvas = document.getElementById('preview');
+  previewCanvas = document.getElementById('preview');
 
   /*
    * define some useful functions
@@ -194,7 +194,8 @@
     // handle window resize event
     window.onresize = (function () {
       var
-        attribSet = false;
+        attribSet = false,
+        lastWindowHeight = -1;
 
       return function () {
         var
@@ -206,9 +207,10 @@
 
         // css3 media queries can't do this :-(
         if (windowWidth < 640) {
-          if (!attribSet) {
+          if (!attribSet || lastWindowHeight !== windowHeight) {
             mapListDiv.setAttribute('style', 'width: 100%; height: ' +
                 (windowHeight - newGameFormDiv.clientHeight) + 'px;');
+            lastWindowHeight = windowHeight;
             attribSet = true;
           }
         } else if (attribSet) {
@@ -419,6 +421,6 @@
   };
 
   ns.ui.setMapPreview = function (bmap) {
-    bmap.draw(mapPreviewCanvas);
+    bmap.draw(previewCanvas);
   };
 }());

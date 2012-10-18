@@ -1197,9 +1197,8 @@
         }
       },
 
-      drawTile: function (ctx, x, y) {
-        var tile = this.tiles[y][x], srcTileWidth = 64, dstTileWidth = 16,
-          img = ns.images.tiles;
+      drawTile: function (ctx, img, srcTileWidth, x, y) {
+        var tile = this.tiles[y][x], dstTileWidth = 16;
 
         ctx.drawImage(img,
             tile.x * srcTileWidth, tile.y * srcTileWidth,
@@ -1221,7 +1220,7 @@
         }*/
       },
 
-      drawRect: function (ctx, rect) {
+      drawRect: function (ctx, img, width, rect) {
         var x, y, xMax, yMax;
 
         rect = rect.intersect(ns.bolo.worldRect);
@@ -1231,7 +1230,7 @@
 
         for (y = rect.y; y < yMax; y += 1) {
           for (x = rect.x; x < xMax; x += 1) {
-            this.drawTile(ctx, x, y);
+            this.drawTile(ctx, img, width, x, y);
           }
         }
       }

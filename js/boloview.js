@@ -5,14 +5,15 @@
 
 /*globals BOLO */
 
-(function (BOLO) {
+(function () {
   'use strict';
 
   var
+    ns = window.BOLO,
     BoloView,
     tileWidth = 16;
 
-  BOLO.BoloView = BoloView = (function () {
+  ns.BoloView = BoloView = (function () {
     var prototype = {
       canvas: null,
       ctx: null,
@@ -43,8 +44,8 @@
         canvas.height = height;
 
         this.centerView(
-          BOLO.bolo.maxViewRect.width / 2,
-          BOLO.bolo.maxViewRect.height / 2
+          ns.bolo.maxViewRect.width / 2,
+          ns.bolo.maxViewRect.height / 2
         );
 
         this.draw();
@@ -71,7 +72,7 @@
         newViewRect = viewRect.translate(
           dx,
           dy
-        ).moveWithin(BOLO.bolo.maxViewRect);
+        ).moveWithin(ns.bolo.maxViewRect);
 
         // convert (dx, dy) back to screen pixels
         dx = (newViewRect.x - viewRect.x) * scale;
@@ -81,7 +82,7 @@
           this.viewRect = newViewRect;
 
           // copy paste screen buffer
-          canvasRect = new BOLO.Rect(
+          canvasRect = new ns.Rect(
             0,
             0,
             canvas.width,
@@ -125,12 +126,23 @@
           canvasWidthScale = canvas.width / scale,
           canvasHeightScale = canvas.height / scale;
 
-        this.viewRect = (new BOLO.Rect(
-          Math.floor(x - (canvasWidthScale * 0.5)),
-          Math.floor(y - (canvasHeightScale * 0.5)),
+        x -= canvasWidthScale / 2;
+        y -= canvasHeightScale / 2;
+
+        if (scale < 1) {
+          x = Math.floor(x * scale) / scale;
+          y = Math.floor(y * scale) / scale;
+        } else {
+          x = Math.floor(x);
+          y = Math.floor(y);
+        }
+
+        this.viewRect = (new ns.Rect(
+          x,
+          y,
           canvasWidthScale,
           canvasHeightScale
-        )).moveWithin(BOLO.bolo.maxViewRect);
+        )).moveWithin(ns.bolo.maxViewRect);
       },
 
       // increases scale
@@ -179,12 +191,12 @@
 
           viewRect = this.viewRect;
 
-          this.viewRect = (new BOLO.Rect(
+          this.viewRect = (new ns.Rect(
             Math.round(viewRect.x * scale) / scale,
             Math.round(viewRect.y * scale) / scale,
             viewRect.width,
             viewRect.height
-          )).moveWithin(BOLO.bolo.maxViewRect);
+          )).moveWithin(ns.bolo.maxViewRect);
 
           // clear canvas
           canvas = this.canvas;
@@ -204,7 +216,7 @@
 
       // updates tileMap and screen buffer for all of rect
       refreshRect: function (rect) {
-        rect = rect.intersect(BOLO.bolo.maxViewRect);
+        rect = rect.intersect(ns.bolo.maxViewRect);
         this.tileMap.refreshRect(rect.tilize(tileWidth));
         this.drawRect(rect);
       },
@@ -216,12 +228,13 @@
 
       // draws the screen buffer for rect, rect is in pixel coordinates
       drawRect: function (rect) {
-        var
-          ctx = this.ctx,
-          scale = this.scale,
-          viewRect = this.viewRect;
+        var ctx, img, sourceWidth, scale, viewRect;
 
         if (this.tileMap) {
+          ctx = this.ctx;
+          scale = this.scale;
+          viewRect = this.viewRect;
+
           ctx.save();
 
           // setup matrix
@@ -233,8 +246,16 @@
           ctx.rect(rect.x, rect.y, rect.width, rect.height);
           ctx.clip();
 
-          // draw tiles under rect
-          this.tileMap.drawRect(ctx, rect.tilize(tileWidth));
+          // select appropriatly scaled image
+          if (scale === 0.5) {
+            img = ns.images.tiles_small;
+            sourceWidth = 8;
+          } else {
+            img = ns.images.tiles;
+            sourceWidth = 64;
+          }
+
+          this.tileMap.drawRect(ctx, img, sourceWidth, rect.tilize(tileWidth));
 
           ctx.restore();
         }
@@ -243,11 +264,4 @@
 
     return prototype.constructor;
   }());
-}((function () {
-  'use strict';
-  if (typeof window.BOLO !== 'object') {
-    window.BOLO = {};
-  }
-
-  return window.BOLO;
-}())));
+}());
